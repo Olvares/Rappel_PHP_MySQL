@@ -1,6 +1,6 @@
 <?php session_start();
-require_once('./config/connect');
-require_once('./config/user');
+require_once('./../config/connect.php');
+require_once('./../config/user.php');
 ?>
 
 <!DOCTYPE html>

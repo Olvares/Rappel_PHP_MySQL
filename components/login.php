@@ -1,8 +1,4 @@
 <?php
-session_start();
-require_once('./config/user');
-// require_once('./variables.php');
-
 // Validation du formulaire
 if (isset($_POST['email']) &&  isset($_POST['password'])) {
     foreach ($users as $user) {
@@ -10,7 +6,8 @@ if (isset($_POST['email']) &&  isset($_POST['password'])) {
             $user['email'] === $_POST['email'] &&
             $user['password'] === $_POST['password']
         ) {
-            $loggedUser = $user['email'];
+            $_SESSION['LOGGED_USER'] = $user['email'];
+            require_once('./config/user');
         } else {
             $errorMessage = sprintf(
                 'Les informations envoyées ne permettent pas de vous identifier : (%s/%s)',

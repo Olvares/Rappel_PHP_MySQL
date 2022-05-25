@@ -1,6 +1,6 @@
 <?php
-require_once('./config/connect.php');
-require_once('./config/user');
+require_once('./../config/connect.php');
+require_once('./../config/user.php');
 
 // Validation du formulaire
 $verif = false;
