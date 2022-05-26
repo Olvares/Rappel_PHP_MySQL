@@ -1,8 +1,3 @@
-<?php session_start();
-require_once('./../config/connect.php');
-require_once('./../config/user.php');
-?>
-
 <!DOCTYPE html>
 <html>
 
@@ -22,18 +17,24 @@ require_once('./../config/user.php');
 
         <!-- Inclusion du formulaire de connexion -->
         <?php include_once('login.php'); ?>
-        <h1>Site de Recettes !</h1>
-
         <!-- Si l'utilisateur existe, on affiche les recettes -->
-        <?php if (isset($loggedUser)) : ?>
+        <?php if (isset($loggedUser)) :
+        ?>
+            <h1>Site de Recettes !</h1>
+
             <?php foreach (get_recipes($recipes, $limit) as $recipe) : ?>
-                <article>
+                <article class="mb-3">
                     <h3><?php echo $recipe['title']; ?></h3>
                     <div><?php echo $recipe['recipe']; ?></div>
                     <i><?php echo display_author($recipe['author'], $users); ?></i>
+                    <div class="mt-2">
+                        <a href=<?= $rootUrlComp . "add_recipe_form.php" ?> class="btn btn-success mx-3"> Ajouter </a>
+                        <a href=<?= $rootUrlComp . "upd_recipe.php?id=" . $recipe['recipe_id'] ?> class="btn btn-warning mx-3"> Mettre à jour </a>
+                        <a href=<?= $rootUrlComp . "del_recipe.php?id=" . $recipe['recipe_id'] ?> class=" btn btn-danger mx-3"> Supprimer </a>
+                    </div>
                 </article>
-            <?php endforeach ?>
-            <a href="add_recipe_form.php" class="btn btn-primary">Ajouter</a>
+            <?php endforeach; ?>
+            <!-- <a href="add_recipe_form.php" class="btn btn-primary">Ajouter</a> -->
         <?php endif; ?>
     </div>
 

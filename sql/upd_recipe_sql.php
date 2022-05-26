@@ -1,19 +1,19 @@
 <?php
-require_once('./../config/connect.php');
 require_once('./../config/user.php');
+require_once('./../config/connect.php');
 
 // Validation du formulaire
-$verif = false;
-if (isset($_POST['title']) &&  isset($_POST['recipe'])) {
-    $request = 'INSERT INTO recipe(title, recipe, author, is_enable) VALUES (:title, :recipe, :author, :is_enable)';
+if (!isset($_POST['id']) || !isset($_POST['title']) || !isset($_POST['recipe'])) {
+    $errorMessage = "Certains champs du formulaire n'ont pas été remplis.";
+} else {
+    $request = 'UPDATE recipes SET title=:title, recipe=:recipe, is_enabled=:is_enabled WHERE recipe_id=:id';
     $dbp = $db->prepare($request);
     $dbp->execute([
+        "id" => $_POST["id"],
         "title" => $_POST["title"],
         "recipe" => $_POST["recipe"],
-        "author" => $loggedUser,
-        "is_enable" => 1
+        "is_enabled" => isset($_POST['is_enabled']) ? 1 : 0
     ]);
-    $verif = true;
 }
 ?>
 
@@ -30,19 +30,19 @@ if (isset($_POST['title']) &&  isset($_POST['recipe'])) {
 
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
-        <?php include_once('header.php'); ?>
-        <?php if ($verif) : ?>
+        <?php include_once('./../components/header.php'); ?>
+        <?php if (!isset($errorMessage)) : ?>
             <div class="alert alert-success" role="alert">
-                Recette ajouter avec succès !!!
+                Recette mise à jour avec succès !!!
             </div>
         <?php else : ?>
             <div class="alert alert-danger" role="alert">
-                Erreur lors de l'ajout de la recette !!!
+                <?= $errorMessage ?>
             </div>
         <?php endif; ?>
     </div>
 
-    <?php include_once('footer.php'); ?>
+    <?php include_once('./../components/footer.php'); ?>
 </body>
 
 </html>

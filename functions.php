@@ -43,3 +43,11 @@ function get_recipes(array $recipes, int $limit): array
 
     return $valid_recipes;
 }
+
+function updDelRecipeBtn(string $add, string $upd, string $del): string
+{
+    $btns = '<a href="' . $add . '" class="btn btn-success mx-3">Ajouter</a>';
+    $btns .= '<a href="' . $upd . '" class="btn btn-warning mx-3">Mettre à jour</a>';
+    $btns .= '<a href="' . $del . '" class="btn btn-danger mx-3">Suprrimer</a>';
+    return $btns;
+}

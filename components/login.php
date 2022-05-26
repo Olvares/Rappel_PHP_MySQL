@@ -1,20 +1,25 @@
 <?php
+require_once('./../config/user.php');
+
 // Validation du formulaire
+$logged = false;
 if (isset($_POST['email']) &&  isset($_POST['password'])) {
     foreach ($users as $user) {
         if (
             $user['email'] === $_POST['email'] &&
             $user['password'] === $_POST['password']
         ) {
-            $_SESSION['LOGGED_USER'] = $user['email'];
-            require_once('./config/user');
-        } else {
-            $errorMessage = sprintf(
-                'Les informations envoyées ne permettent pas de vous identifier : (%s/%s)',
-                $_POST['email'],
-                $_POST['password']
-            );
+            $_SESSION['LOGGED_USER'] = $user;
+            $logged = true;
+            break;
         }
+    }
+    if (!$logged) {
+        $errorMessage = sprintf(
+            'Les informations envoyées ne permettent pas de vous identifier : (%s/%s)',
+            $_POST['email'],
+            $_POST['password']
+        );
     }
 }
 ?>
@@ -46,6 +51,6 @@ if (isset($_POST['email']) &&  isset($_POST['password'])) {
 -->
 <?php else : ?>
     <div class="alert alert-success" role="alert">
-        Bonjour <?php echo $loggedUser; ?> et bienvenue sur le site !
+        Bonjour <?php echo $loggedUser['full_name']; ?> et bienvenue sur le site !
     </div>
 <?php endif; ?>
